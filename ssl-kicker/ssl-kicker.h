@@ -14,18 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef CATIE_SIXTRON_SSL KICKER_H_
-#define CATIE_SIXTRON_SSL KICKER_H_
+#ifndef CATIE_SIXTRON_KICKER_H_
+#define CATIE_SIXTRON_KICKER_H_
 
 namespace sixtron {
 
-class ssl kicker
+class KICKER
 {
 public:
-    ssl kicker();
+    KICKER();
 };
 
 } // namespace sixtron
 
-#endif // CATIE_SIXTRON_SSL KICKER_H_
+#endif // CATIE_SIXTRON_KICKER_H_
 

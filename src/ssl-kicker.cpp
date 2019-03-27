@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-#include "ssl kicker/ssl kicker.h"
+#include "ssl-kicker/ssl-kicker.h"
 
 namespace sixtron {
 
-ssl kicker::ssl kicker()
+KICKER::KICKER()
 {
 }
 
