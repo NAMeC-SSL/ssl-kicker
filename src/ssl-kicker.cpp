@@ -35,4 +35,17 @@ void KICKER::kick1_off()
     _kick1 = 0;
 }
 
+void KICKER::kick2(float power)
+{
+    disable_charge();
+    _kick2 = 1;
+
+    _kick2_timeout.attach(callback(this, &KICKER::kick2_off), std::chrono::microseconds((int)(power * 10000.0)));
+}
+
+void KICKER::kick2_off()
+{
+    _kick2 = 0;
+}
+
 } // namespace sixtron

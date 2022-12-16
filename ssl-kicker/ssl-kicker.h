@@ -20,14 +20,19 @@ public:
 
     void kick1(float power);
 
+    void kick2(float power);
+
 private:
     DigitalOut _charge;
     DigitalOut _kick1;
     DigitalOut _kick2;
 
     Timeout _kick1_timeout;
+    Timeout _kick2_timeout;
 
     void kick1_off();
+
+    void kick2_off();
 };
 
 } // namespace sixtron
