@@ -21,7 +21,10 @@ public:
     void kick1(float power);
 
     void kick2(float power);
+    
+    void set_kick1_available();
 
+    void set_kick2_available();
 private:
     DigitalOut _charge;
     DigitalOut _kick1;
@@ -29,6 +32,9 @@ private:
 
     Timeout _kick1_timeout;
     Timeout _kick2_timeout;
+
+    bool _kick1_available;
+    bool _kick2_available;
 
     void kick1_off();
 
