@@ -1,27 +1,79 @@
 /*
- * Copyright (c) 2019, CATIE
+ * Copyright (c) 2022, CATIE
  * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
-#include "ssl-kicker/ssl-kicker.h"
+#include "ssl-kicker.h"
 
 namespace sixtron {
 
-KICKER::KICKER()
+KICKER::KICKER(PinName charge, PinName kick1, PinName kick2):
+        _charge(charge, 1),
+        _kick1(kick1, 0),
+        _kick2(kick2, 0),
+        _kick1_available(true),
+        _kick2_available(true)
 {
 }
 
-} // namespace sixtron
+void KICKER::enable_charge()
+{
+    _charge = 0;
+}
 
+void KICKER::disable_charge()
+{
+    _charge = 1;
+}
+
+void KICKER::kick1(float power)
+{
+    disable_charge();
+    if (!_kick1_available) {
+        return;
+    }
+    _kick1 = 1;
+    _kick1_available = false;
+
+    _kick1_timeout.attach(
+            callback(this, &KICKER::kick1_off), std::chrono::microseconds((int)(power * 10000.0)));
+}
+
+void KICKER::kick1_off()
+{
+    _kick1 = 0;
+
+    _kick1_timeout.attach(callback(this, &KICKER::set_kick1_available), 1s);
+}
+
+void KICKER::kick2(float power)
+{
+    disable_charge();
+    if (!_kick2_available) {
+        return;
+    }
+    _kick2 = 1;
+    _kick2_available = false;
+
+    _kick2_timeout.attach(
+            callback(this, &KICKER::kick2_off), std::chrono::microseconds((int)(power * 10000.0)));
+}
+
+void KICKER::kick2_off()
+{
+    _kick2 = 0;
+
+    _kick2_timeout.attach(callback(this, &KICKER::set_kick2_available), 1s);
+}
+
+void KICKER::set_kick1_available()
+{
+    _kick1_available = true;
+}
+
+void KICKER::set_kick2_available()
+{
+    _kick2_available = true;
+}
+
+} // namespace sixtron

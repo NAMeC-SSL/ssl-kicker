@@ -1,31 +1,46 @@
 /*
- * Copyright (c) 2019, CATIE
+ * Copyright (c) 2022, CATIE
  * SPDX-License-Identifier: Apache-2.0
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
+
 #ifndef CATIE_SIXTRON_KICKER_H_
 #define CATIE_SIXTRON_KICKER_H_
 
+#include "mbed.h"
+
 namespace sixtron {
 
-class KICKER
-{
+class KICKER {
 public:
-    KICKER();
+    KICKER(PinName charge, PinName kick1, PinName kick2);
+
+    void enable_charge();
+
+    void disable_charge();
+
+    void kick1(float power);
+
+    void kick2(float power);
+    
+    void set_kick1_available();
+
+    void set_kick2_available();
+private:
+    DigitalOut _charge;
+    DigitalOut _kick1;
+    DigitalOut _kick2;
+
+    Timeout _kick1_timeout;
+    Timeout _kick2_timeout;
+
+    bool _kick1_available;
+    bool _kick2_available;
+
+    void kick1_off();
+
+    void kick2_off();
 };
 
 } // namespace sixtron
 
 #endif // CATIE_SIXTRON_KICKER_H_
-
